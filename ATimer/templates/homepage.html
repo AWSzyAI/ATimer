@@ -17,26 +17,13 @@
         
         视图页面最下方为一个“+”号按钮，用于新建项目，输入项目名称并选择“In Planing”,"In Process", “Done”之一的属性后会在对应的属性文件夹下新建{项目名}.md文件，当修改其属性时，就会从原来属性所在的文件夹移动到目标属性的文件夹。</p> 
   </div>
+
   <!-- 新建项目按钮 -->
   <button id="new-btn">新建项目</button> 
+  {% include 'models/new_project.html' %}
 
-  <!-- 弹窗 -->
-  <div id="new-modal" class="modal">
-    <div class="modal-content">
-      <label>项目名称:</label>
-      <input type="text" id="project-name">
-      
-      <label>项目状态:</label>
-      <select id="project-status">
-        <option value="In Planning">In Planning</option>
-        <option value="In Process">In Process</option>
-        <option value="Done">Done</option>
-        <option value="Paused">Paused</option>
-      </select>
-      
-      <button id="cancel-btn">取消</button>
-      <button id="ok-btn">确定</button>
-    </div>
-  </div>
+
+  <script src="../static/js/script.js"></script>
 
 {% endblock %}
+
