@@ -1,0 +1,29 @@
+project_manager
+├─ frontend/ # 前端代码
+│  ├─ src
+│  ├─ public
+│  ├─ package.json
+│  └─ ...
+├─ backend/
+│  ├─ app.py # Python后端主入口  
+│  ├─ cpp_modules/ # C++模块
+│  ├─ api/ 
+│  ├─ model/
+│  ├─ utils.py
+│  └─ ...
+└─ docs/ # 项目文档
+   ├─ README.md
+   └─ ...
+
+Your-Timer
+├─data
+|  ├─Done
+|  ├─In Planing
+│  |  ├─C++课程设计.md
+|  |  └─ ...
+|  ├─In Process
+|  └─Pause
+├─main.py
+|
+|
+

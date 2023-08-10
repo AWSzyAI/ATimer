@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>创建新项目</h1>
+
+<form id="new-project-form">
+  <label for="name">项目名称:</label>
+  <input type="text" id="name" name="name">
+  
+  <button type="submit">创建</button>
+</form>
+
+<script>
+const form = document.getElementById('new-project-form');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  const name = form.elements['name'].value;
+  
+  fetch('/api/projects', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({name}) 
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert('项目创建成功!');
+    window.location.reload();
+  });
+});
+</script>
+
+{% endblock %}
