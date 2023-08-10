@@ -76,7 +76,6 @@ def new_project():
 
 
 
-
 # 读取单个项目文件
 def load_project(project_file): 
     with open(project_file) as f:
