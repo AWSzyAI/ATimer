@@ -48,3 +48,59 @@ Your-Timer
     </div>
   </div>
 
+
+@app.route('/new-project')
+def new_project():
+  return render_template('new_project.html')
+
+
+
+# 读取单个项目文件
+def load_project(project_file): 
+    with open(project_file) as f:
+        content = f.read()
+
+    metadata, content = content.split('\n---\n')
+    data = yaml.load(metadata,Loader=yaml.FullLoader)
+
+    data['content'] = content
+
+    return data
+
+
+# 读取所有项目文件
+@app.route('/api/projects', methods=['GET'])
+def get_projects():
+    # 返回项目列表
+    # 创建新项目
+    projects = []
+    for status in ['In Planning', 'In Process', 'Done']:
+        status_dir = f'{PROJECTS_DIR}/{status}'
+        for filename in os.listdir(status_dir):
+            project_file = f'{status_dir}/{filename}'
+            project = load_project(project_file)
+            projects.append(project)
+
+    return jsonify(projects)
+
+@app.route('/api/projects/<project_id>', methods=['GET'])
+def get_project(project_id):
+    # 返回项目列表
+    # 创建新项目
+    projects = []
+    for status in ['In Planning', 'In Process', 'Done']:
+        status_dir = f'{PROJECTS_DIR}/{status}'
+        for filename in os.listdir(status_dir):
+            project_file = f'{status_dir}/{filename}'
+            project = load_project(project_file)
+            projects.append(project)
+    for project in projects:
+        if project['id'] == project_id:
+            return jsonify(project)
+    return jsonify({'message': 'Project not found'}), 404
+
+
+@app.route('/projects/<project_id>')
+def show_project(project_id):
+  project = get_project(project_id)
+  return render_template('project.html', project=project)

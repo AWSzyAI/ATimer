@@ -1,37 +1,27 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+<div class="modal">
 
-<h1>创建新项目</h1>
-
-<form id="new-project-form">
-  <label for="name">项目名称:</label>
-  <input type="text" id="name" name="name">
+    <label>项目名称:</label>
+    <input type="text" id="project-name">
   
-  <button type="submit">创建</button>
-</form>
-
-<script>
-const form = document.getElementById('new-project-form');
-
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
+    <!-- 下拉框 -->
+    <label>项目状态:</label>
+    <select id="project-status">
+        <option value="In Planning">In Planning</option>
+        <option value="In Process">In Process</option>
+        <option value="Done">Done</option>
+        <option value="Paused">Paused</option>
+    </select>
   
-  const name = form.elements['name'].value;
+    <button id="cancel">取消</button>
+    <button id="ok">确定</button>
   
-  fetch('/api/projects', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({name}) 
-  })
-  .then(response => response.json())
-  .then(data => {
-    alert('项目创建成功!');
-    window.location.reload();
-  });
-});
-</script>
+  </div>
+
+  <script src="home.html"></script>
+  <script src="../static/js/script.js"></script>\
 
 {% endblock %}
+

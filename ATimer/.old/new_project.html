@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- 弹窗div -->
+<div id="modal" class="modal">
+
+  <!-- 弹窗内容 -->
+  <label>项目名称:</label>
+  <input type="text" id="project-name">
+
+  <label>项目状态:</label>
+  <select id="project-status">
+    <option value="In Planning">In Planning</option>
+    <!-- 其他选项 -->
+  </select>
+
+  <button id="cancelBtn">取消</button>  
+  <button id="submitBtn">提交</button>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<div class="message is-success">
+  <div class="message-body">
+    {% include 'intro.html' %}
+  </div>  
+</div>
+
+<h1 class="title">Projects</h1>
+
+<a class="button is-primary">+ New Project</a>
+<a href="{{ url_for('new_project') }}" class="btn">新建项目</a>
+
+
+<nav class="panel">
+  <p class="panel-heading">
+    Ranking
+  </p>  
+  
+  {% for project in projects %}
+  <a href="#" class="panel-block">
+    {{ project.name }} | {{ project.time_spent_today }}
+  </a>
+  {% endfor %}
+
+</nav>
+
+{% endblock %}
