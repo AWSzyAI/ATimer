@@ -1,4 +1,4 @@
-#!/workspaces/ATimer/ATimer/bin-env/bin/python
+#!/Users/szy/Downloads/ATimer/ATimer/bin-env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

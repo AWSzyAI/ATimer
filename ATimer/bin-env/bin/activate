@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/workspaces/ATimer/ATimer/bin-env"
+VIRTUAL_ENV="/Users/szy/Downloads/ATimer/ATimer/bin-env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
