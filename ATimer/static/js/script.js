@@ -37,3 +37,14 @@ okBtn.addEventListener('click', () => {
   })
 
 })
+
+
+
+
+function showModal() {
+    fetch('/new-project-modal')
+      .then(res => res.text())
+      .then(html => {
+        document.body.innerHTML += html;
+      })
+  }
