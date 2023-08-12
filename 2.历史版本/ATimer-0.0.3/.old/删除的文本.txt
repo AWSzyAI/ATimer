@@ -1,0 +1,106 @@
+project_manager
+├─ frontend/ # 前端代码
+│  ├─ src
+│  ├─ public
+│  ├─ package.json
+│  └─ ...
+├─ backend/
+│  ├─ app.py # Python后端主入口  
+│  ├─ cpp_modules/ # C++模块
+│  ├─ api/ 
+│  ├─ model/
+│  ├─ utils.py
+│  └─ ...
+└─ docs/ # 项目文档
+   ├─ README.md
+   └─ ...
+
+Your-Timer
+├─data
+|  ├─Done
+|  ├─In Planing
+│  |  ├─C++课程设计.md
+|  |  └─ ...
+|  ├─In Process
+|  └─Pause
+├─main.py
+|
+|
+
+
+
+  <!-- 弹窗 -->
+  <div id="new-modal" class="modal">
+    <div class="modal-content">
+      <label>项目名称:</label>
+      <input type="text" id="project-name">
+      
+      <label>项目状态:</label>
+      <select id="project-status">
+        <option value="In Planning">In Planning</option>
+        <option value="In Process">In Process</option>
+        <option value="Done">Done</option>
+        <option value="Paused">Paused</option>
+      </select>
+      
+      <button id="cancel-btn">取消</button>
+      <button id="ok-btn">确定</button>
+    </div>
+  </div>
+
+
+@app.route('/new-project')
+def new_project():
+  return render_template('new_project.html')
+
+
+
+# 读取单个项目文件
+def load_project(project_file): 
+    with open(project_file) as f:
+        content = f.read()
+
+    metadata, content = content.split('\n---\n')
+    data = yaml.load(metadata,Loader=yaml.FullLoader)
+
+    data['content'] = content
+
+    return data
+
+
+# 读取所有项目文件
+@app.route('/api/projects', methods=['GET'])
+def get_projects():
+    # 返回项目列表
+    # 创建新项目
+    projects = []
+    for status in ['In Planning', 'In Process', 'Done']:
+        status_dir = f'{PROJECTS_DIR}/{status}'
+        for filename in os.listdir(status_dir):
+            project_file = f'{status_dir}/{filename}'
+            project = load_project(project_file)
+            projects.append(project)
+
+    return jsonify(projects)
+
+@app.route('/api/projects/<project_id>', methods=['GET'])
+def get_project(project_id):
+    # 返回项目列表
+    # 创建新项目
+    projects = []
+    for status in ['In Planning', 'In Process', 'Done']:
+        status_dir = f'{PROJECTS_DIR}/{status}'
+        for filename in os.listdir(status_dir):
+            project_file = f'{status_dir}/{filename}'
+            project = load_project(project_file)
+            projects.append(project)
+    for project in projects:
+        if project['id'] == project_id:
+            return jsonify(project)
+    return jsonify({'message': 'Project not found'}), 404
+
+
+@app.route('/projects/<project_id>')
+def show_project(project_id):
+  project = get_project(project_id)
+  return render_template('project.html', project=project)
