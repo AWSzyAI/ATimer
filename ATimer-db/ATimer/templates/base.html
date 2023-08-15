@@ -1,4 +1,12 @@
 <!doctype html>
+{% set active_page=--daily-- %}  <!--{占位}默认-->
+
+{% if g.user %}
+  {% set username=g.user['username'] %}
+{% else %}
+  {% set username='' %}
+{% endif %
+
 <title>{% block title %}{% endblock %}Pm's ATimer</title>  <!--{占位}默认-->
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -7,6 +15,11 @@
   <img src="{{ url_for('static', filename='images/logo.jpg') }}">
   <h1>ATimer</h1>
   <ul>
+    <!--daily-->
+    <li><a href="{{ url_for('index') }}" style="{% if active_page=='index' %}font-weight:bold;color:red{% endif %}">日视图</a>
+    <li><a href="{{ url_for('weekly') }}" style="{% if active_page=='weekly' %}font-weight:bold;color:red{% endif %}">周视图</a>
+    <li><a href="{{ url_for('monthly') }}" style="{% if active_page=='monthly' %}font-weight:bold;color:red{% endif %}">月视图</a>
+    <li><a href="{{ url_for('yearly') }}" style="{% if active_page=='yearly' %}font-weight:bold;color:red{% endif %}">年视图</a>
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
