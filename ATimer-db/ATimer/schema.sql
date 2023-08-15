@@ -11,3 +11,10 @@ CREATE TABLE records (
   end DATETIME NOT NULL,
   FOREIGN KEY (project_id) REFERENCES projects (id)
 );
+
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  password TEXT NOT NULL  
+);
