@@ -1,35 +1,46 @@
 <!doctype html>
-{% set active_page=--daily-- %}  <!--{占位}默认-->
-
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="ATimer">
+  <meta name="author" content="Pm">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %}Pm's ATimer</title>  <!--{占位}默认-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
 {% if g.user %}
-  {% set username=g.user['username'] %}
+{% set username=g.user['username'] %}
 {% else %}
   {% set username='' %}
-{% endif %
-
-<title>{% block title %}{% endblock %}Pm's ATimer</title>  <!--{占位}默认-->
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
+{% endif %}
+  
+<!--导航栏-->
 <nav>
-  <img src="{{ url_for('static', filename='images/logo.jpg') }}">
-  <h1>ATimer</h1>
-  <ul>
+  <img class="logo" alt="Logo" src="{{ url_for('static', filename='images/logo.jpg') }}" >
+  <p class="title">ATimer</p>
+  <ul class="menu">
     <!--daily-->
-    <li><a href="{{ url_for('index') }}" style="{% if active_page=='index' %}font-weight:bold;color:red{% endif %}">日视图</a>
-    <li><a href="{{ url_for('weekly') }}" style="{% if active_page=='weekly' %}font-weight:bold;color:red{% endif %}">周视图</a>
-    <li><a href="{{ url_for('monthly') }}" style="{% if active_page=='monthly' %}font-weight:bold;color:red{% endif %}">月视图</a>
-    <li><a href="{{ url_for('yearly') }}" style="{% if active_page=='yearly' %}font-weight:bold;color:red{% endif %}">年视图</a>
+    <li class="{% if active_page=='daily' %}active{% endif %}"><a class="{% if active_page=='daily' %}active{% endif %}" href="{{ url_for('main.daily')}}">日视图</a></li>
+    <!--weekly-->
+    <li class="{% if active_page=='weekly' %}active{% endif %}"><a class="{% if active_page=='weekly' %}active{% endif %}" href="{{ url_for('main.weekly')}}">周视图</a></li>
+    <!--monthly-->
+    <li class="{% if active_page=='monthly' %}active{% endif %}"><a class="{% if active_page=='monthly' %}active{% endif %}" href="{{ url_for('main.monthly')}}">月视图</a></li>
+    <!--yearly-->
+    <li class="{% if active_page=='yearly' %}active{% endif %}"><a class="{% if active_page=='yearly' %}active{% endif %}" href="{{ url_for('main.yearly')}}">年视图</a></li>
+     
+    
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+      <li><a href="{{ url_for('main.logout') }}">Log Out</a>
     {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
+      <li><a href="{{ url_for('main.register') }}">Register</a>
+      <li><a href="{{ url_for('main.login') }}">Log In</a>
     {% endif %}
   </ul>
 </nav>
-
+  
+<!--main-->
 <section class="content">
   <header>
     {% block header %}{% endblock %}
@@ -40,7 +51,9 @@
   
   {% block content %}{% endblock %}
 </section>
-
+  
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</html>
+
 

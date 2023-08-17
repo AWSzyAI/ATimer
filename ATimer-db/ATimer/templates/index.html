@@ -2,9 +2,7 @@
 
 
 
-{% block title %}
-ATimer--Szy
-{% endblock %}
+{% block title %}ATimer--Szy{% endblock %}
 
 
 {% block header %}
@@ -13,7 +11,15 @@ ATimer--Szy
 {% endblock %}
 
 {% block content %}
-<!-- 首页内容 -->
-<p>这是时子延的面向对象程序设计课程设计作品：ATimer</p>
+
+<div class="page-header">
+    <h1 class="page-title">ATimer</h1> 
+</div>
+
+<p>这是时子延的面向对象程序设计课程设计作品:ATimer</p>
+
+<div class="new-project">
+    <a href="{{ url_for('main.create') }}" class="btn">新建项目</a>
+</div>
   
 {% endblock %}

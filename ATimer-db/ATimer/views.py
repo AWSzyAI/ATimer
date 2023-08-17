@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for,Flask
+from flask import request
 
 bp = Blueprint('main', __name__)
 
@@ -18,9 +19,22 @@ def login():
 def profile():
   return render_template('profile.html',active_page='profile')
 
-@bp.route('/create')  
+
+@bp.route('/create', methods=['GET', 'POST'])
 def create():
+  if request.method == 'POST':
+    
+    # 获取表单数据
+    name = request.form['name']  
+    status = request.form['status']
+
+    # 创建项目逻辑
+
+    return redirect(url_for('index'))
+
   return render_template('create.html',active_page='create')
+
+
 
 @bp.route('/daily')
 def daily():
