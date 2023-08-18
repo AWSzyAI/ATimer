@@ -17,7 +17,7 @@
   
 <!--导航栏-->
 <nav>
-  <img class="logo" alt="Logo" src="{{ url_for('static', filename='images/logo.jpg') }}" >
+  <a href="{{ url_for('main.index')}}"><img class="logo" alt="Logo" src="{{ url_for('static', filename='images/logo.jpg') }}" ></a>
   <p class="title">ATimer</p>
   <ul class="menu">
     <!--daily-->
@@ -32,10 +32,10 @@
     
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
-      <li><a href="{{ url_for('main.logout') }}">Log Out</a>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
     {% else %}
-      <li><a href="{{ url_for('main.register') }}">Register</a>
-      <li><a href="{{ url_for('main.login') }}">Log In</a>
+      <li><a href="{{ url_for('auth.register') }}">Register</a>
+      <li><a href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
   </ul>
 </nav>

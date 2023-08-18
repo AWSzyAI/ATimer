@@ -1,5 +1,6 @@
 from flask import Flask
 from .views import bp
+from .auth import bp
 from .models import db
 from . import db, views
 
@@ -13,6 +14,8 @@ def create_app():
     
     db.init_app(app)
     
-    app.register_blueprint(bp)
+    app.register_blueprint(views.bp)
+    app.register_blueprint(auth.bp)
+
 
     return app

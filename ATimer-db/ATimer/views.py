@@ -7,13 +7,7 @@ bp = Blueprint('main', __name__)
 def index():
   return render_template('index.html',active_page='index')
 
-@bp.route('/register')
-def register():
-    return render_template('register.html',active_page='register')
 
-@bp.route('/login')
-def login():
-  return render_template('login.html',active_page='login')
 
 @bp.route('/profile')
 def profile():

@@ -20,6 +20,11 @@
 
 <div class="new-project">
     <a href="{{ url_for('main.create') }}" class="btn">新建项目</a>
+    <ul>
+        <li><a href="{{ url_for('auth.register') }}">Register</a>
+        <li><a href="{{ url_for('auth.login') }}">Log In</a>
+    </ul>
+    
 </div>
   
 {% endblock %}

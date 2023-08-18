@@ -12,6 +12,7 @@ setup(
         'flask',
         'flask-sqlalchemy',
         'click',
+        'werkzeug'
     ],
 
     entry_points={
