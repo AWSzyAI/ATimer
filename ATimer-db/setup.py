@@ -12,27 +12,11 @@ setup(
         'flask',
         'flask-sqlalchemy',
         'click',
+        'python-dotenv',
+        'setuptools',
         'werkzeug'
     ],
-
-    entry_points={
-        'console_scripts': [
-            'atimer = ATimer.manage:cli'
-        ]
-    },
-
-    # 包数据
-    package_data={
-        'ATimer': [
-            'schema.sql',
-            'static/css/*',
-            'static/js/*',
-            'templates/*',
-            'templates/auth/*',
-            'templates/base.html'
-        ]
-    },
-
+    
     # metadata
     author='Ziyan Shi',
     author_email='szy@nnu.edu.cn',

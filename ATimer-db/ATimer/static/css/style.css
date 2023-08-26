@@ -29,17 +29,6 @@ input[type=submit] { align-self: start; min-width: 10em; }
     color: red;
 }
 
-nav{
-    display: flex;
-    width: 100%;
-    max-width: 960px;
-    overflow-x: auto; 
-    position: relative;
-    margin-left: auto;
-    margin-right: auto; 
-    background-color: #006400;
-    border: 1px solid yellow;
-}
 
 
 .logo{

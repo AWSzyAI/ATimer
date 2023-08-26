@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS records;
+DROP TABLE IF EXISTS users;
+
+
 CREATE TABLE projects (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -12,9 +17,9 @@ CREATE TABLE records (
   FOREIGN KEY (project_id) REFERENCES projects (id)
 );
 
-CREATE TABLE users (
+
+CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  password TEXT NOT NULL  
+  username TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL
 );

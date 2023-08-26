@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template, redirect, url_for,Flask
 from flask import request
+from .models import User
 
 bp = Blueprint('main', __name__)
 
+
+
 @bp.route('/')
 def index():
-  return render_template('index.html',active_page='index')
+  users = User.query.all() # 查询所有用户
+  return render_template('index.html',active_page='index',users=users)
 
 
 
