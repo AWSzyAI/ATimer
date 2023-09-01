@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Project (
   weekly_time INTERVAL NOT NULL DEFAULT '00:00:00',
   daily_time INTERVAL NOT NULL DEFAULT '00:00:00',
   all_time INTERVAL NOT NULL DEFAULT '00:00:00',
-  FOREIGN KEY (User_id) REFERENCES Users (id)
+  FOREIGN KEY (user_id) REFERENCES User (id)
 );
 
 -- 创建 records 表
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Record (
   start_time TIMESTAMP NOT NULL,
   end_time TIMESTAMP NOT NULL,
   duration INTERVAL NOT NULL,
-  FOREIGN KEY (Project_id) REFERENCES Project (id)
+  FOREIGN KEY (project_id) REFERENCES Project (id)
 );
 
 

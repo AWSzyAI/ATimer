@@ -1,9 +1,18 @@
 
+{% extends 'base.html' %}
+
+
+
+{% block title %}年视图{% endblock %}
+
+
+{% block header %}
+<h1>年视图</h1>
+{% endblock %}
+{% block content %}
+
 
 这是年视图
 
-{% for year, duration in project.yearly_time.items() %}
+{% endblock %}
 
-  {{ year }}: {{ duration }} 
-
-{% endfor %}

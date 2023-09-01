@@ -1,9 +1,7 @@
 #__init__.py
 
 from flask import Flask
-from .views import bp
-from .auth import bp
-from .models import db
+
 from . import db, views
 import os
 
@@ -13,7 +11,7 @@ load_dotenv()
 def create_app(test_config=None):
     app = Flask(__name__,instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
+        SECRET_KEY='dev',  # os.urandom(16)
         DATABASE=os.path.join(app.instance_path, 'ATimer.sqlite'),
     )
     if test_config is None:
@@ -33,14 +31,17 @@ def create_app(test_config=None):
     app.config['DATABASE'] = os.path.join(app.instance_path, 'ATimer.sqlite')
 
 
-    from . import db
+    from .models import db
     db.init_app(app)
-    
+
     with app.app_context():
         db.create_all()
 
+
+
     from . import auth
     app.register_blueprint(auth.bp)
+
 
     from . import views
     app.register_blueprint(views.bp)

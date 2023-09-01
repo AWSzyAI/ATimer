@@ -10,29 +10,31 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from .db import get_db
 from .models import User
 
+
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+# 注册
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        id = User.query.count()+1
 
         error = None
         db = get_db()
 
         if User.query.filter_by(username=username).first():
             error = 'User {} already exists'.format(username)
-        
-        
 
         if not error:
-            new_user = User(username=username, password_hash=generate_password_hash(password))
+            new_user = User(username=username, password=password, id=id)
             db.session.add(new_user)
             db.session.commit()
             
     return render_template('auth/register.html',active_page='register')
 
+# 登录
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
@@ -53,6 +55,12 @@ def login():
 
     return render_template('auth/login.html',active_page='login')
 
+# 个人资料
+@bp.route('/profile')
+def profile():
+    return render_template('auth/profile.html',active_page='profile')
+
+
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
@@ -65,7 +73,7 @@ def load_logged_in_user():
 
 @bp.route('/logout')
 def logout():
-    session.clear()
+    session.clear() #session.pop('user_id', None)
     return redirect(url_for('index'))
 
 def login_required(view):

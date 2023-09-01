@@ -13,14 +13,14 @@ import os
 
 # 获取数据库连接对象
 def get_db():
-    if 'db' not in g: # 如果g中没有db属性
-        g.db = sqlite3.connect( # 创建数据库连接
-        current_app.config['DATABASE'],
-        detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        g.db.row_factory = sqlite3.Row # 设置数据库连接的row_factory属性
-
-    return g.db
+  if 'db' not in g: # 如果g中没有db属性
+    g.db = sqlite3.connect( # 创建数据库连接
+      current_app.config['DATABASE'],
+      detect_types=sqlite3.PARSE_DECLTYPES
+      
+    )
+    g.db.row_factory = sqlite3.Row # 设置数据库连接的row_factory属性
+  return g.db
 
 # 关闭数据库连接
 def close_db(e=None): 

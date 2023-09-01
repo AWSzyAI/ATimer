@@ -1,19 +1,15 @@
 #view.py
 
-from flask import Blueprint, render_template, redirect, url_for,Flask,jsonify
+from flask import Blueprint, render_template, redirect, url_for,Flask,jsonify,session
 from flask import request
 from .models import User
 from .models import Project
 from .models import Record
 from .models import db
-
 from flask_login import login_required
 
 
-
 bp = Blueprint('main', __name__)
-
-
 
 @bp.route('/')
 def index():
@@ -22,9 +18,7 @@ def index():
 
 
 
-@bp.route('/profile')
-def profile():
-  return render_template('profile.html',active_page='profile')
+
 
 @bp.route('/projects')
 def projects():
@@ -35,20 +29,26 @@ def projects():
 
 @bp.route('/create', methods=['GET','POST']) 
 def create():
+  
   next_page = request.args.get('next')
   if request.method == 'POST':
     # 获取表单数据
     name = request.form['name']
     status = request.form['status']
+    current_user = User.query.get(session['user_id'])
     
     # 创建项目
-    project = Project(name=name, status=status)
+    project = Project(
+      id=Project.query.count()+1,
+      name=name, 
+      status=status,
+      user_id=current_user.id
+    )
     db.session.add(project)
     db.session.commit()
-    
+
     if next_page:
       return redirect(url_for(next_page))
-
   return render_template('create.html',active_page='create')
 
 @login_required
@@ -64,17 +64,16 @@ def change_project_status(id):
   return jsonify(status='success')
 
 
-
+# 项目详情
 @bp.route('/all')
 def all():
-    
-    projects = Project.query.order_by(Project.all_time.desc()).all()
-    return render_template('views/all.html',active_page='all',projects=projects)
+  projects = Project.query.order_by(Project.all_time.desc()).all()
+  return render_template('views/all.html',active_page='all',projects=projects,next='all')
 
 @bp.route('/daily')
 def daily():
-    projects = Project.query.order_by(Project.day.desc()).all()
-    return render_template('views/daily.html',active_page='daily',projects=projects,times=projects.day)
+  projects = Project.query.order_by(Project.daily_time.desc()).all() 
+  return render_template('views/daily.html', projects=projects)
 
 @bp.route('/weekly')
 def weekly():
