@@ -10,8 +10,6 @@
 {% endblock %}
 
 {% block content %}
-<a href="{{ url_for('create_project', next='daily') }}">新建</a>
-
 
 {% for project in projects %}
 <div>
@@ -26,5 +24,6 @@
 </div>
 {% endfor %}
 
-{% endblock %}
+<a href="{{ url_for('main.create',next='main.all') }}">新建项目</a>
 
+{% endblock %}

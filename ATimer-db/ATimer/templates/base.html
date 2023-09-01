@@ -20,6 +20,8 @@
   <a href="{{ url_for('main.index')}}"><img class="logo" alt="Logo" src="{{ url_for('static', filename='images/logo.jpg') }}" ></a>
   <p class="title">ATimer</p>
   <ul class="menu">
+    <!--all-->
+    <li class="{% if active_page=='all' %}active{% endif %}"><a class="{% if active_page=='all' %}active{% endif %}" href="{{ url_for('main.all')}}">所有</a></li>
     <!--daily-->
     <li class="{% if active_page=='daily' %}active{% endif %}"><a class="{% if active_page=='daily' %}active{% endif %}" href="{{ url_for('main.daily')}}">日视图</a></li>
     <!--weekly-->

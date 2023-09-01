@@ -98,3 +98,17 @@ input[type=submit] { align-self: start; min-width: 10em; }
     background: #0077ff;
     color: #fff; 
 }
+
+/*对齐*/
+.project-item {
+    display: flex;
+    align-items: center; 
+  }
+  
+  .actions {
+    margin-right: 16px; 
+  }
+  
+  .details {
+    flex: 1; /* 扩充占满剩余空间 */
+  }
