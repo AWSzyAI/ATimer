@@ -14,7 +14,8 @@ setup(
         'click',
         'python-dotenv',
         'setuptools',
-        'werkzeug'
+        'werkzeug',
+        'flask-login'
     ],
     
     # metadata

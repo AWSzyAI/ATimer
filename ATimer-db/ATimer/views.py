@@ -1,9 +1,13 @@
+#view.py
+
 from flask import Blueprint, render_template, redirect, url_for,Flask,jsonify
 from flask import request
 from .models import User
 from .models import Project
 from .models import Record
 from .models import db
+
+from flask_login import login_required
 
 
 
@@ -47,7 +51,7 @@ def create():
 
   return render_template('create.html',active_page='create')
 
-
+@login_required
 @bp.route('/project/<int:id>/status', methods=['PUT'])
 def change_project_status(id):
 
@@ -63,8 +67,8 @@ def change_project_status(id):
 
 @bp.route('/all')
 def all():
-    #projects = Project.query.all() # 确保是查询最新数据
-    projects = Project.query.order_by(Project.total_time.desc()).all()
+    
+    projects = Project.query.order_by(Project.all_time.desc()).all()
     return render_template('views/all.html',active_page='all',projects=projects)
 
 @bp.route('/daily')

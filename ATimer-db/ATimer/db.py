@@ -1,3 +1,5 @@
+#db.py
+
 import sqlite3 # 导入sqlite3模块
 import click # 导入click模块
 from flask import current_app, g # 从flask模块导入current_app和g对象
@@ -18,7 +20,7 @@ def get_db():
         )
         g.db.row_factory = sqlite3.Row # 设置数据库连接的row_factory属性
 
-    return db
+    return g.db
 
 # 关闭数据库连接
 def close_db(e=None): 

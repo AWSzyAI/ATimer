@@ -3,28 +3,18 @@
 
 
 
-{% block title %}ATimer--Szy{% endblock %}
+{% block title %}日视图{% endblock %}
+
 
 {% block header %}
-<h1>所有项目</h1>
+<h1>日视图</h1>
 {% endblock %}
 
+
 {% block content %}
-<a href="{{ url_for('create_project', next='daily') }}">新建</a>
 
 
-{% for project in projects %}
-<div>
-    <div class="actions">  
-        <button onclick="toggleStatus({{project.id}})">按钮</button>
-    </div>
-
-    <div class="details">
-        <div>{{ project.name }}</div> 
-        <div>{{ project.total_time }}</div>
-    </div>
-</div>
-{% endfor %}
+这是日视图
 
 {% endblock %}
 

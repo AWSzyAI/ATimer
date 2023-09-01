@@ -1,3 +1,5 @@
+#__init__.py
+
 from flask import Flask
 from .views import bp
 from .auth import bp
