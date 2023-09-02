@@ -3,29 +3,42 @@
 
 
 
-{% block title %}ATimer--Szy{% endblock %}
+{% block title %}所有项目--ATimer{% endblock %}
 
 {% block header %}
 <h1>所有项目</h1>
 {% endblock %}
 
 {% block content %}
-
-
 <div class="container">
-    {% for project in projects %}
-    <div>
-      <div class="actions">
-        <button onclick="toggleStatus({{project.id}})">按钮</button>
-      </div>
-      <div class="details">
-        <div>{{ project.name }}</div>
-        <div>{{ project.total_time }}</div>
-      </div>
-    </div>
-    {% endfor %}
+  {% for project in projects %}
+  <div class="project-card">
+    <ul>
+      <!--项目排名序号-->
+      <li class="project-rank">{{ loop.index }}</li>
+      <!--计时按钮，status='Pause'时文本显示为'开始计时'，status='In Process'文本显示为停止计时-->
+      <li class="project-timer-button">
+        <button class="timer-button" onclick="toggleTimer({{ project.id }})">
+          {% if project.status == 'Pause' %}
+          record
+          {% else  %}
+          stop
+          {% endif %}
+        </button>
+      <!--项目名称-->
+      <li class="project-name">{{ project.name }}</li>
+      <!--项目状态-->
+      <li class="project-status">{{ project.status }}</li>
+      <!--项目总计时间-->
+      <li class="project-total-time">{{ project.all_time }}</li>
+      <!--项目更多按钮-->
+      <li class="project-more">
+        <button class="more" onclick="">更多</button>
+      </li>
+    </ul>
+  </div>
+  {% endfor %}
 </div>
-
 
 <a href="{{ url_for('main.create',next='main.all') }}">新建项目</a>
 

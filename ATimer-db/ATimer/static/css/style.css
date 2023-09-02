@@ -112,3 +112,16 @@ input[type=submit] { align-self: start; min-width: 10em; }
   .details {
     flex: 1; /* 扩充占满剩余空间 */
   }
+
+
+/*all.html*/
+.project-card ul {
+    list-style: none; 
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #006400;
+}
+
+.project-card li {
+    margin: 5px;
+}
