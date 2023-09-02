@@ -1,0 +1,8 @@
+pip
+flask==2.0.3
+flask-sqlalchemy==2.3.1
+flask-login
+jinja2==3.0.3
+python-dotenv
+sqlalchemy
+werkzeug

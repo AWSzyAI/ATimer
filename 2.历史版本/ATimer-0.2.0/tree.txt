@@ -1,0 +1,44 @@
+.
+├── ATimer
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   └── ...
+│   ├── auth.py
+│   ├── db.py
+│   ├── models.py
+│   ├── schema.sql
+│   ├── static
+│   │   ├── css
+│   │   │   └── style.css
+│   │   ├── images
+│   │   │   └── logo.jpg
+│   │   └── js
+│   │       └── script.js
+│   ├── templates
+│   │   ├── auth
+│   │   │   ├── login.html
+│   │   │   ├── profile.html
+│   │   │   └── register.html
+│   │   ├── base.html
+│   │   ├── create.html
+│   │   ├── index.html
+│   │   ├── project.html
+│   │   └── views
+│   │       ├── daily.html
+│   │       ├── monthly.html
+│   │       ├── weekly.html
+│   │       └── yearly.html
+│   └── views.py
+├── ATimer.egg-info
+│   └── ...
+├── MANIFEST.in
+├── build
+│   └── ...
+├── dist
+│   └── ...
+├── instance
+├── requirements.txt
+├── setup.py
+├── tree.txt
+└── venv
+    └── ...
