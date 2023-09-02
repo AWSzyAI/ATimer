@@ -8,6 +8,7 @@
 
 {% block header %}
 <h1>日视图</h1>
+<a class="create_project" href="{{ url_for('main.create',next='main.all') }}">新建项目</a>
 {% endblock %}
 {% block content %}
 

@@ -70,19 +70,22 @@ def all():
 @bp.route('/daily')
 def daily():
   projects = Project.query.order_by(Project.daily_time.desc()).all() 
-  return render_template('views/daily.html', projects=projects)
+  return render_template('views/daily.html', projects=projects,active_page='daily',next='daily')
 
 @bp.route('/weekly')
 def weekly():
-  return render_template('views/weekly.html',active_page='weekly') 
+  projects = Project.query.order_by(Project.weekly_time.desc()).all()
+  return render_template('views/weekly.html',active_page='weekly',projects=projects,next='weekly')
 
 @bp.route('/monthly')
 def monthly():
-    return render_template('views/monthly.html',active_page='monthly')
+  projects = Project.query.order_by(Project.monthly_time.desc()).all()  
+  return render_template('views/monthly.html',active_page='monthly',projects=projects,next='monthly')
 
 @bp.route('/yearly')
 def yearly():
-    return render_template('views/yearly.html',active_page='yearly')
+  projects = Project.query.order_by(Project.yearly_time.desc()).all()
+  return render_template('views/yearly.html',active_page='yearly',projects=projects,next='yearly')
 
 
 def create_app():

@@ -118,10 +118,17 @@ input[type=submit] { align-self: start; min-width: 10em; }
 .project-card ul {
     list-style: none; 
     display: flex;
+    align-items: left;
     flex-direction: column;
     border: 2px solid #006400;
+    border-radius: 5px;
 }
 
 .project-card li {
-    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    margin: 0 auto 0 0;
+    border: 1px solid #ccddee;
+    border-radius: 5px;
 }
