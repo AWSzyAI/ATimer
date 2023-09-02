@@ -12,11 +12,11 @@ CREATE TABLE IF NOT EXISTS Project (
   id INTEGER PRIMARY KEY,
   user_id INTEGER NOT NULL,
   name VARCHAR(64) NOT NULL,
-  yearly_time INTERVAL NOT NULL DEFAULT '00:00:00',
-  monthly_time INTERVAL NOT NULL DEFAULT '00:00:00',
-  weekly_time INTERVAL NOT NULL DEFAULT '00:00:00',
-  daily_time INTERVAL NOT NULL DEFAULT '00:00:00',
-  all_time INTERVAL NOT NULL DEFAULT '00:00:00',
+  all_time DATETIME NOT NULL DEFAULT '00:00:00',
+  daily_time TEXT, -- 日时间,TEXT类型存储JSON
+  weekly_time TEXT,  
+  monthly_time TEXT,
+  yearly_time TEXT,
   FOREIGN KEY (user_id) REFERENCES User (id)
 );
 

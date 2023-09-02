@@ -1,6 +1,7 @@
 #__init__.py
 
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 from . import db, views
 import os
@@ -33,11 +34,6 @@ def create_app(test_config=None):
 
     from .models import db
     db.init_app(app)
-
-    with app.app_context():
-        db.create_all()
-
-
 
     from . import auth
     app.register_blueprint(auth.bp)

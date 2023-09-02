@@ -1,4 +1,5 @@
-<!doctype html>
+<!--base.html-->
+
 <html lang="zh-cn">
 <head>
   <meta charset="utf-8">
@@ -33,7 +34,7 @@
      
     
     {% if g.user %}
-      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="{{ url_for('auth.profile') }}"><span>{{ g.user['username'] }}</span></a>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Register</a>/<a href="{{ url_for('auth.login') }}">Log In</a>

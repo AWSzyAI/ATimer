@@ -3,12 +3,12 @@
 import functools
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from .db import get_db
-from .models import User
+from .models import User, db
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -19,18 +19,20 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        id = User.query.count()+1
-
         error = None
-        db = get_db()
+        #db = get_db()
 
         if User.query.filter_by(username=username).first():
             error = 'User {} already exists'.format(username)
 
         if not error:
-            new_user = User(username=username, password=password, id=id)
+            new_user = User(username=username, password=password)
             db.session.add(new_user)
             db.session.commit()
+            #return redirect(url_for('auth.login'))
+        
+
+        flash(error)
             
     return render_template('auth/register.html',active_page='register')
 
@@ -43,6 +45,7 @@ def login():
         db = get_db()
         error = None
         user = User.query.filter_by(username=username).first()
+      
 
         if not user or not user.check_password(password):
             error = 'Incorrect username or password'
@@ -50,7 +53,7 @@ def login():
         if not error:
             session['user_id'] = user.id
             return redirect(url_for('main.all'))
-        
+
         flash(error)
 
     return render_template('auth/login.html',active_page='login')
@@ -69,7 +72,7 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = User.query.get(user_id)
-
+        
 
 @bp.route('/logout')
 def logout():

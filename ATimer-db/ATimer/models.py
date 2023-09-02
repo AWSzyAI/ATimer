@@ -7,15 +7,34 @@ from datetime import datetime, timedelta  # 用于处理日期和时间
 from flask_sqlalchemy import SQLAlchemy  # 用于数据库操作
 from werkzeug.security import generate_password_hash, check_password_hash  # 用于密码哈希
 
+from sqlalchemy.types import TypeDecorator, VARCHAR
+import json
+
 
 
 # 创建数据库实例
 db = SQLAlchemy()
 
+
+class JSONEncodedDict(TypeDecorator):
+  """Represents an immutable structure as a json-encoded string."""
+  impl = VARCHAR
+
+  def process_bind_param(self, value, dialect):
+    if value is not None:
+      value = json.dumps(value)
+    return value
+
+  def process_result_value(self, value, dialect):
+    if value is not None:
+      value = json.loads(value)
+    return value
+  
+
 # 创建用户模型
 class User(db.Model):
   __tablename__ = 'users'  # 数据库表名
-  id = db.Column(db.Integer, primary_key=True)  # 用户ID，整数类型，主键
+  id = db.Column(db.Integer, primary_key=True,autoincrement=True)  # 用户ID，整数类型，主键
   username = db.Column(db.String(64), unique=True, nullable=False)  # 用户名，字符串类型，唯一且不能为空
   password_hash = db.Column(db.String(128), nullable=False)  # 密码哈希值，字符串类型，不能为空
   
@@ -50,11 +69,11 @@ class Project(db.Model):
   #duration = db.Column(db.Interval, nullable=False)  # 项目时长，时间间隔类型，不能为空
 
   #统计数据
-  all_time = db.Column(db.Interval, nullable=False)  # 总时长，时间间隔类型，不能为空
-  daily_time = db.Column(PickleType, nullable=False, default={})  # 日时长，字典类型，默认为空字典
-  weekly_time = db.Column(PickleType, nullable=False, default={})  # 周时长，字典类型，默认为空字典
-  monthly_time = db.Column(PickleType, nullable=False, default={})  # 月时长，字典类型，默认为空字典
-  yearly_time = db.Column(PickleType, nullable=False, default={})  # 年时长，字典类型，默认为空字典
+  all_time = db.Column(db.DateTime, default='00:00:00', nullable=False)
+  daily_time = db.Column(JSONEncodedDict) 
+  weekly_time = db.Column(JSONEncodedDict)
+  monthly_time = db.Column(JSONEncodedDict)
+  yearly_time = db.Column(JSONEncodedDict)
 
   #元数据
   records = db.relationship('Record', backref='records', lazy=True)  # 项目和记录之间的关联关系
@@ -137,13 +156,17 @@ class Record(db.Model):
   
 
   def __init__(self, start_time, end_time):
-      self.start_time = start_time  # 初始化记录的开始时间
-      self.end_time = end_time  # 初始化记录的结束时间
-      self.duration = end_time - start_time  # 计算并设置记录的时长
-      #self.project.update_time_stats() 
+    self.start_time = start_time  # 初始化记录的开始时间
+    self.end_time = end_time  # 初始化记录的结束时间
+    self.duration = end_time - start_time  # 计算并设置记录的时长
+    #self.project.update_time_stats() 
 
   def save(self):
-      db.session.add(self)  # 将记录添加到数据库会话
-      db.session.commit()  # 提交数据库会话
-      #self.project.update_duration()  # 更新所属项目的时长信息
-      db.session.commit()  # 再次提交数据库会话
+    db.session.add(self)  # 将记录添加到数据库会话
+    db.session.commit()  # 提交数据库会话
+    #self.project.update_duration()  # 更新所属项目的时长信息
+    db.session.commit()  # 再次提交数据库会话
+
+
+
+
