@@ -11,12 +11,14 @@ CREATE TABLE IF NOT EXISTS User (
 CREATE TABLE IF NOT EXISTS Project (
   id INTEGER PRIMARY KEY,
   user_id INTEGER NOT NULL,
-  name VARCHAR(64) NOT NULL,
-  all_time DATETIME NOT NULL DEFAULT '00:00:00',
-  daily_time TEXT, -- 日时间,TEXT类型存储JSON
-  weekly_time TEXT,  
-  monthly_time TEXT,
-  yearly_time TEXT,
+  name TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'In Planning', // 项目状态 InPlanning, InProgress, Completed, Abandoned, Paused
+  --all_time TIME DEFAULT '00:00:00',
+  all_time TEXT,
+  daily_time JSON, -- 日时间,TEXT类型存储JSON
+  weekly_time JSON,  
+  monthly_time JSON,
+  yearly_time JSON,
   FOREIGN KEY (user_id) REFERENCES User (id)
 );
 

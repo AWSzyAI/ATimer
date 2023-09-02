@@ -57,7 +57,7 @@ class Project(db.Model):
   __tablename__ = 'projects'  # 数据库表名
   
   #项目信息
-  id = db.Column(db.Integer, primary_key=True)  # 项目ID，整数类型，主键
+  id = db.Column(db.Integer, primary_key=True,autoincrement=True)  # 项目ID，整数类型，主键
   name = db.Column(db.String(64), nullable=False)  # 项目名称，字符串类型，不能为空
   status = db.Column(db.String(64), nullable=False)  # 项目状态，字符串类型，不能为空
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # 项目所属用户ID，整数类型，外键，不能为空
@@ -69,11 +69,13 @@ class Project(db.Model):
   #duration = db.Column(db.Interval, nullable=False)  # 项目时长，时间间隔类型，不能为空
 
   #统计数据
-  all_time = db.Column(db.DateTime, default='00:00:00', nullable=False)
-  daily_time = db.Column(JSONEncodedDict) 
-  weekly_time = db.Column(JSONEncodedDict)
-  monthly_time = db.Column(JSONEncodedDict)
-  yearly_time = db.Column(JSONEncodedDict)
+  #created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)  # 项目创建时间，日期时间类型，不能为空
+  #all_time = db.Column(db.Time, default='00:00:00', nullable=False)  # 项目总时长，时间类型，不能为空
+  all_time = db.Column(db.String)
+  daily_time = db.Column(JSONEncodedDict, default={}) 
+  weekly_time = db.Column(JSONEncodedDict, default={})
+  monthly_time = db.Column(JSONEncodedDict, default={})
+  yearly_time = db.Column(JSONEncodedDict, default={})
 
   #元数据
   records = db.relationship('Record', backref='records', lazy=True)  # 项目和记录之间的关联关系
@@ -144,11 +146,43 @@ class Project(db.Model):
 
     db.session.commit()
 
+  def update_time_stats(self,record):
+    date = record.start_time.date()
+    day = date.strftime("%Y-%m-%d")
+    week = date.strftime("%Y-W%W")
+    month = date.strftime("%Y-%m")
+    year = date.strftime("%Y")
+
+    if date.isoformat() in self.daily_time:
+      self.daily_time[day] += record.duration
+    else:
+      self.daily_time[day] = record.duration
+
+    if week in self.weekly_time:
+      self.weekly_time[week] += record.duration
+    else:
+      self.weekly_time[week] = record.duration
+    
+    if month in self.monthly_time:
+      self.monthly_time[month] += record.duration
+    else:
+      self.monthly_time[month] = record.duration
+
+    if year in self.yearly_time:
+      self.yearly_time[year] += record.duration
+    else:
+      self.yearly_time[year] = record.duration
+
+       
+
+    self.calculate_time()
+    db.session.commit()
+
 # 创建记录模型
 class Record(db.Model):
   __tablename__ = 'records'  # 数据库表名
  
-  id = db.Column(db.Integer, primary_key=True)  # 记录ID，整数类型，主键
+  id = db.Column(db.Integer, primary_key=True,autoincrement=True)  # 记录ID，整数类型，主键
   project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)  # 项目ID，整数类型，外键，不能为空
   start时间 = db.Column(db.DateTime, nullable=False)  # 记录开始时间，日期时间类型，不能为空
   end_time = db.Column(db.DateTime, nullable=False)  # 记录结束时间，日期时间类型，不能为空

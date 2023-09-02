@@ -42,7 +42,8 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
+        #db = get_db()
+        
         error = None
         user = User.query.filter_by(username=username).first()
       
@@ -61,7 +62,7 @@ def login():
 # 个人资料
 @bp.route('/profile')
 def profile():
-    return render_template('auth/profile.html',active_page='profile')
+    return render_template('auth/profile.html',active_page='profile',user=g.user)
 
 
 @bp.before_app_request

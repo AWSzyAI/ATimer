@@ -8,31 +8,11 @@
 
 {% block header %}
 <h1>日视图</h1>
-
 {% endblock %}
 {% block content %}
 
 
 这是日视图
-{% for project in projects %}
-<div>
-    <div class="actions">  
-        <button onclick="toggleStatus({{project.id}})">按钮</button>
-    </div>
-
-    <div class="details">
-        <div>{{ project.name }}</div> 
-        <div>{{ project.total_time }}</div>
-    </div>
-</div>
-
-
 
 {% endblock %}
-
-
-
-
-
-
 

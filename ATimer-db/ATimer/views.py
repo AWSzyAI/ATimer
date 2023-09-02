@@ -7,6 +7,7 @@ from .models import Project
 from .models import Record
 from .models import db
 from flask_login import login_required
+from datetime import datetime, timedelta  # 用于处理日期和时间
 
 
 bp = Blueprint('main', __name__)
@@ -16,32 +17,25 @@ def index():
   users = User.query.all() # 查询所有用户
   return render_template('index.html',active_page='index',users=users)
 
-
-
-
-
-@bp.route('/projects')
-def projects():
-  projects = Project.query.all()
-  
-  return render_template('projects.html', projects=projects)
-
-
 @bp.route('/create', methods=['GET','POST']) 
 def create():
-  
   next_page = request.args.get('next')
   if request.method == 'POST':
     # 获取表单数据
     name = request.form['name']
     status = request.form['status']
+
     current_user = User.query.get(session['user_id'])
     
     # 创建项目
     project = Project(
-      id=Project.query.count()+1,
       name=name, 
       status=status,
+      all_time='00:00:00',
+      daily_time={datetime.now().strftime('%Y-%m-%d'):'00:00:00'},
+      weekly_time={datetime.now().strftime('%Y-%W'):'00:00:00'},
+      monthly_time={datetime.now().strftime('%Y-%m'):'00:00:00'},
+      yearly_time={datetime.now().strftime('%Y'):'00:00:00'},
       user_id=current_user.id
     )
     db.session.add(project)
@@ -49,7 +43,10 @@ def create():
 
     if next_page:
       return redirect(url_for(next_page))
+    
   return render_template('create.html',active_page='create')
+
+
 
 @login_required
 @bp.route('/project/<int:id>/status', methods=['PUT'])

@@ -1,0 +1,16 @@
+<!--用户信息页-->
+
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block header %}
+<h1>用户信息</h1>
+{% endblock %}
+
+{% block content %}
+这是{{user.username}}的用户信息页
+
+{% endblock %}
+
+
