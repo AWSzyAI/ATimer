@@ -61,6 +61,7 @@ class Project(db.Model):
   name = db.Column(db.String(64), nullable=False)  # 项目名称，字符串类型，不能为空
   status = db.Column(db.String(64), default="Pause",nullable=False)  # 项目状态，字符串类型，不能为空
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # 项目所属用户ID，整数类型，外键，不能为空
+  #active = db.Column(db.Boolean, default=False, nullable=False)  # 项目是否处于激活状态，布尔类型，不能为空
 
   
   #description = db.Column(db.String(64), nullable=False)  # 项目描述，字符串类型，不能为空

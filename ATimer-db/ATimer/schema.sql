@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS Project (
   weekly_time JSON,  
   monthly_time JSON,
   yearly_time JSON,
+  --active BOOLEAN NOT NULL DEFAULT FALSE,
   FOREIGN KEY (user_id) REFERENCES User (id)
 );
 

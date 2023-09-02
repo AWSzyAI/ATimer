@@ -9,8 +9,11 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+from flask_migrate import Migrate
+
 def create_app(test_config=None):
     app = Flask(__name__,instance_relative_config=True)
+
     app.config.from_mapping(
         SECRET_KEY='dev',  # os.urandom(16)
         DATABASE=os.path.join(app.instance_path, 'ATimer.sqlite'),
@@ -42,5 +45,7 @@ def create_app(test_config=None):
     from . import views
     app.register_blueprint(views.bp)
     app.add_url_rule('/', endpoint='index')
+
+    migrate = Migrate(app, db)
 
     return app

@@ -20,10 +20,10 @@
       <!--计时按钮，status='Pause'时文本显示为'开始计时'，status='In Process'文本显示为停止计时-->
       <li class="project-timer-button">
         <button class="timer-button" onclick="toggleTimer({{ project.id }})">
-          {% if project.status == 'Pause' %}
-          record
-          {% else  %}
+          {% if project.active %}
           stop
+          {% else  %}
+          record
           {% endif %}
         </button>
       <!--项目名称-->
