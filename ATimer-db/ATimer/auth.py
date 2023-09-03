@@ -80,6 +80,29 @@ def logout():
     session.clear() #session.pop('user_id', None)
     return redirect(url_for('index'))
 
+@bp.route('/change_password', methods=('GET', 'POST'))
+def change_password():
+    if request.method == 'POST':
+        user = User.query.get(session['user_id'])
+        if user.check_password(request.form['old_password']):
+            user.set_password(request.form['new_password'])
+            db.session.commit()
+            return redirect(url_for('auth.profile'))
+        else:
+            flash('旧密码错误')
+    return render_template('auth/change_password.html',active_page='change_password')
+
+
+@bp.route('/delete', methods=('GET', 'POST'))
+def delete():
+    if request.method == 'POST':
+        user = User.query.get(session['user_id'])
+        db.session.delete(user)
+        db.session.commit()
+        session.clear()
+        return redirect(url_for('index'))
+    return render_template('auth/delete.html',active_page='delete')
+
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
