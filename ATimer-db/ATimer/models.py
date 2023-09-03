@@ -91,7 +91,7 @@ class Project(db.Model):
     month = date.strftime("%Y-%m")
     year = date.strftime("%Y")
 
-    duration = convert_duration(record.duration)
+    duration = record.duration
 
     if date.isoformat() in self.daily_time:
       self.daily_time[day] += duration

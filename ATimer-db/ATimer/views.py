@@ -51,7 +51,7 @@ def parse_datetime(datetime_str):
     # 解析日期时间字符串并返回 datetime 对象
     return datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
 
-@bp.route('/create_record', methods=['POST'])
+@bp.route('/create-record', methods=['POST'])
 def create_record():
   # 获取表单数据
   data = request.get_json()

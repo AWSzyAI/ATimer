@@ -1,37 +1,3 @@
-// static/script.js
-/*
-let timerBtn = document.getElementsByClassName('timer-btn');
-let active = true;
-let startTime = null;
-let projectId = timerBtn.getAttribute('project-id');
-
-timerBtn.addEventListener('click', function() {
-  if (active) {
-    // Start timer
-    startTime = new Date();
-    print(startTime);
-    active = false;
-    timerBtn.innerText = 'Stop';
-  } else {
-    // Stop timer
-    let endTime = new Date();
-    print(endTime);
-    active = true;
-    timerBtn.innerText = 'Record';
-    
-    let record = {
-      project_id: projectId,
-      start_time: formatDateTime(startTime),
-      end_time: formatDateTime(endTime),
-      time : startTime
-    };
-    createRecord(record);
-    startTime = null;
-    console.log('Button clicked for project with ID:', projectId);
-  }
-});
-
-*/
 
 function formatDateTime(dateTime) {
   // 格式化为 YYYY-MM-DD HH:MM:SS 格式
@@ -46,7 +12,7 @@ function formatDateTime(dateTime) {
 
 function createRecord(record) {
   let xhr = new XMLHttpRequest();
-  xhr.open('POST', '/create_record');
+  xhr.open('POST', '/create-record');
   xhr.onload = function() {
     if (xhr.status === 200) {
       console.log('Record created:', record);
@@ -59,107 +25,60 @@ function createRecord(record) {
   xhr.send(JSON.stringify(record));
 }
 
-function clickHandler(e) {
-  let btn = e.target;
-  let projectId = btn.id;
-  let active = false;
-  let startTime, endTime;
-  if(!active){
-    startTime = new Date();
-    active = true;
-    btn.innerText = 'Stop';
-  }else{
-    endTime = new Date();
-    active = false;
-    btn.innerText = 'Record';
 
-    let record = {
-      project_id: projectId,
-      start_time: formatDateTime(startTime),
-      end_time: formatDateTime(endTime),
-    };
-    createRecord(record);
-  }
+
+// 格式化时间
+function formatDateTime(dateTime) {
+  let date = new Date(dateTime);
+  let formatted = date.getFullYear() + '-'
+    + (date.getMonth() + 1) + '-'
+    + date.getDate() + ' '
+    + date.getHours() + ':'
+    + date.getMinutes() + ':'
+    + date.getSeconds();
+
+  return formatted; 
 }
 
 
-// 获取所有计时按钮 
+
+
+// 获取所有按钮
 const timerBtns = document.querySelectorAll('.timer-btn');
 
-
+// 为每个按钮绑定点击处理
 timerBtns.forEach(btn => {
-  let active = false;//每个按钮维护独立 active状态
-  btn.addEventListener('click', clickHandler);
-});
 
-
-/*
-const projectCards = document.querySelectorAll('.project-card');
-
-projectCards.forEach(card => {
-
-  const timerBtn = card.querySelector('.timer-btn');
-  //const projectId = timerBtn.getAttribute('project-id');
   let active = false;
   let startTime, endTime;
-  let projectId;
 
-  timerBtn.addEventListener('click', function() {
-    projectId = card.getAttribute('data-project-id');
+  const clickHandler = function() {
 
-    if(!active){
-      startTime = new Date();
+    if(!active) {
+      // 开始录制
+      startTime = new Date(); 
+
       active = true;
-      timerBtn.innerText = 'Stop';
-    }else{
+      btn.textContent = 'Stop';
+
+    } else {
+      // 停止录制
       endTime = new Date();
+
       active = false;
-      timerBtn.innerText = 'Record';
-      
+      btn.textContent = 'Record';
+
       let record = {
-        project_id: projectId,
+        project_id: btn.id,
         start_time: formatDateTime(startTime),
-        end_time: formatDateTime(endTime),
+        end_time: formatDateTime(endTime)
       };
+
       createRecord(record);
     }
-  });
+
+  };
+
+  btn.addEventListener('click', clickHandler);
 
 });
-*/
-/*
-let timerBtn = document.getElementById('timer-btn');
-let active = false;
-let startTime = null;
-//let projectCard = document.getElementsByClassName('project-card');
-//let projectId = projectCard.getAttribute('data-project-id')
-let projectCards = document.querySelectorAll('.project-card');
-
-projectCards.forEach(card => {
-  let projectId = card.getAttribute('data-project-id');
-});
-
-timerBtn.addEventListener('click', function() {
-  if (active) {
-    // Start timer
-    startTime = new Date();
-    active = false;
-    timerBtn.innerText = 'Stop';
-  } else {
-    // Stop timer
-    let endTime = new Date();
-    active = true;
-    timerBtn.innerText = 'Record';
-    
-    let record = {
-      start_time: formatDateTime(startTime),
-      end_time: formatDateTime(endTime),
-      project_id: projectId
-    };
-    createRecord(record);
-    startTime = null;
-  }
-});
-
-
-*/
