@@ -1,7 +1,5 @@
-
+<!--all.html-->
 {% extends 'base.html' %}
-
-
 
 {% block title %}所有项目--ATimer{% endblock %}
 
@@ -13,13 +11,13 @@
 {% block content %}
 <div class="container">
   {% for project in projects %}
-  <div class="project-card">
+  <div class="project-card" data-project-id = "{{ project.id }}">
     <ul>
       <!--项目排名序号-->
       <li class="project-rank">{{ loop.index }}</li>
       <!--计时按钮，status='Pause'时文本显示为'开始计时'，status='In Process'文本显示为停止计时-->
       <li class="project-timer">
-        <button id="timer-btn" project-id="{{ project.id }}">Record</button>
+        <button class="timer-btn" id="{{ project.id }}">Record</button>
       </li>  
       <!--项目名称-->
       <li class="project-name">{{ project.name }}</li>

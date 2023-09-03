@@ -56,22 +56,30 @@ def create_record():
   # 获取表单数据
   data = request.get_json()
 
-  project_id = data.get('project_id')
-  start_time = data.get('start_time')
-  end_time = data.get('end_time')
-  time = data.get('time')
+  project_id = data['project_id']
+  print('获取到项目id:', project_id)
+
+  
+  start_time = data['start_time']
+  print('获取到开始时间:', start_time)
+
+  end_time = data['end_time']
+  print('获取到结束时间:', end_time)
+
   
   record = Record(
     start_time=parse_datetime(start_time),
     end_time=parse_datetime(end_time),
-    time=time,
     project_id=project_id
   )
-  db.session.add(record)
-  db.session.commit()
+  print('创建记录:', record)
 
   project = Project.query.get(project_id)
   project.update_time_stats(record)
+  print('更新项目时间统计信息')
+  
+  db.session.add(record)
+  db.session.commit()
 
   return jsonify(status='success')
 

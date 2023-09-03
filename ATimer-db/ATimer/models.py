@@ -126,10 +126,11 @@ class Record(db.Model):
   duration = db.Column(db.String, nullable=False, default='00:00:00')  # 记录时长，字符串类型，不能为空
   
 
-  def __init__(self, start_time, end_time):
+  def __init__(self, start_time, end_time, project_id):
     self.start_time = start_time  # 初始化记录的开始时间
     self.end_time = end_time  # 初始化记录的结束时间
     self.duration = end_time - start_time  # 计算并设置记录的时长
+    self.project_id = project_id  # 初始化记录所属项目ID
     #self.project.update_time_stats() 
 
   def save(self):
