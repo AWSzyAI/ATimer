@@ -47,6 +47,22 @@ def create():
   return render_template('create.html',active_page='create')
 
 
+@bp.route('/create_record', methods=['POST'])
+def create_record():
+  # 获取表单数据
+  data = request.get_json()
+  project_id = data['project_id']
+  start_time = data['start_time']
+  end_time = data['end_time']
+  time = data['time']
+  
+  record = Record(start_time=start_time,end_time=end_time,time=time,project_id=project_id)
+  db.session.add(record)
+  db.session.commit()
+  
+
+  return jsonify(status='success')
+
 
 @login_required
 @bp.route('/project/<int:id>/status', methods=['PUT'])

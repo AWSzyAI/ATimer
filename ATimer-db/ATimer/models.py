@@ -174,8 +174,6 @@ class Project(db.Model):
     else:
       self.yearly_time[year] = record.duration
 
-       
-
     self.calculate_time()
     db.session.commit()
 

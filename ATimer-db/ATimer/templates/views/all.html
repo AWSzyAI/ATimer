@@ -18,20 +18,15 @@
       <!--项目排名序号-->
       <li class="project-rank">{{ loop.index }}</li>
       <!--计时按钮，status='Pause'时文本显示为'开始计时'，status='In Process'文本显示为停止计时-->
-      <li class="project-timer-button">
-        <button class="timer-button" onclick="toggleTimer({{ project.id }})">
-          {% if project.active %}
-          stop
-          {% else  %}
-          record
-          {% endif %}
-        </button>
+      <li class="project-timer">
+        <button id="timer-btn" >record</button>
+      </li>  
       <!--项目名称-->
       <li class="project-name">{{ project.name }}</li>
       <!--项目状态-->
       <li class="project-status">{{ project.status }}</li>
       <!--项目总计时间-->
-      <li class="project-total-time">{{ project.all_time }}</li>
+      <li class="project-total-time">{{ project.all_Atime }}</li>
       <!--项目更多按钮-->
       <li class="project-more">
         <button class="more" onclick="">更多</button>
@@ -43,3 +38,38 @@
 
 
 {% endblock %}
+
+<script>
+let timer_btn = document.getElementById('timer-btn');
+let satatus = 'inactive'
+
+timer_btn.addEventListener('click',function(){
+  if (status == 'inactive'){
+    start_time = new DateTime();
+    status = 'active';
+    timer_btn.innerText = 'stop';
+  }
+  else{
+    status = 'inactive';
+    timer_btn.innerText = 'record';
+    let end_time = new DateTime();
+    create_record(start_time,end_time);
+    start_time = null;
+    end_time = null;
+  }
+}
+
+function create_record(start_time,end_time){
+  let record = {
+    'start_time':start_time,
+    'end_time':end_time
+  }
+  let record_json = JSON.stringify(record);
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST','/create_record');
+  xhr.setRequestHeader('Content-Type','application/json');
+  xhr.send(record_json);
+}
+
+
+</script>
