@@ -47,21 +47,34 @@ def create():
   return render_template('create.html',active_page='create')
 
 
+def parse_datetime(datetime_str):
+    # 解析日期时间字符串并返回 datetime 对象
+    return datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
+
 @bp.route('/create_record', methods=['POST'])
 def create_record():
   # 获取表单数据
   data = request.get_json()
-  project_id = data['project_id']
-  start_time = data['start_time']
-  end_time = data['end_time']
-  time = data['time']
+
+  project_id = data.get('project_id')
+  start_time = data.get('start_time')
+  end_time = data.get('end_time')
+  time = data.get('time')
   
-  record = Record(start_time=start_time,end_time=end_time,time=time,project_id=project_id)
+  record = Record(
+    start_time=parse_datetime(start_time),
+    end_time=parse_datetime(end_time),
+    time=time,
+    project_id=project_id
+  )
   db.session.add(record)
   db.session.commit()
-  
+
+  project = Project.query.get(project_id)
+  project.update_time_stats(record)
 
   return jsonify(status='success')
+
 
 
 @login_required

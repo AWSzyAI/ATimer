@@ -1,36 +1,26 @@
-// static/script.js
-
-let timerBtn = document.getElementsByClassName('timer-btn');
+let timerBtn = document.getElementById('timer-btn');
 let isactive = 'inactive';
 let startTime = null;
-let projectId = timerBtn.getAttribute('project-id');
 
 timerBtn.addEventListener('click', function() {
   if (isactive === 'inactive') {
     // Start timer
     startTime = new Date();
-    print(startTime);
     isactive = 'active';
     timerBtn.innerText = 'Stop';
   } else {
     // Stop timer
-    let endTime = new Date();
-    print(endTime);
     isactive = 'inactive';
     timerBtn.innerText = 'Record';
-    
+    let endTime = new Date();
     let record = {
-      project_id: projectId,
       start_time: formatDateTime(startTime),
-      end_time: formatDateTime(endTime),
-      time : startTime
+      end_time: formatDateTime(endTime)
     };
     createRecord(record);
     startTime = null;
-    console.log('Button clicked for project with ID:', projectId);
   }
 });
-
 
 function formatDateTime(dateTime) {
   // 格式化为 YYYY-MM-DD HH:MM:SS 格式
@@ -59,34 +49,3 @@ function createRecord(record) {
   };
   xhr.send(JSON.stringify(record));
 }
-
-
-/*
-let timerBtn = document.getElementById('timer-btn');
-let isactive = 'inactive';
-let startTime = null;
-
-timerBtn.addEventListener('click', function() {
-  if (isactive === 'inactive') {
-    // Start timer
-    startTime = new Date();
-    isactive = 'active';
-    timerBtn.innerText = 'Stop';
-  } else {
-    // Stop timer
-    isactive = 'inactive';
-    timerBtn.innerText = 'Record';
-    let endTime = new Date();
-    let record = {
-      start_time: formatDateTime(startTime),
-      end_time: formatDateTime(endTime)
-    };
-    createRecord(record);
-    startTime = null;
-  }
-});
-
-
-
-
-*/
