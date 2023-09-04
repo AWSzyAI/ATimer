@@ -35,6 +35,30 @@ def convert_duration(duration_str):
   duration = timedelta(hours=hours, minutes=minutes, seconds=seconds)
   return duration
 
+def str_time_to_seconds(time_str):
+  """将时间字符串转换为秒数"""
+  hours, minutes, seconds = map(int, time_str.split(':'))
+  seconds = hours * 3600 + minutes * 60 + seconds
+  return seconds
+
+def seconds_to_str_time(seconds):
+  """将秒数转换为时间字符串"""
+  hours = seconds // 3600
+  minutes = seconds % 3600 // 60
+  seconds = seconds % 60
+  return f'{hours:02d}:{minutes:02d}:{seconds:02d}'
+
+def add_times(time1, time2):
+  """将两个时间字符串相加,返回时间字符串"""
+  seconds1 = str_time_to_seconds(time1)
+  seconds2 = str_time_to_seconds(time2)
+  seconds = seconds1 + seconds2
+  res = seconds_to_str_time(seconds)
+  return res 
+
+
+
+
 
 # 创建用户模型
 class User(db.Model):
@@ -77,11 +101,17 @@ class Project(db.Model):
   #元数据
   records = db.relationship('Record', backref='records', lazy=True)  # 项目和记录之间的关联关系
 
-  def __init__(self, name, status, user_id, id=None):
+  def __init__(self, name, status, user_id):
     self.name = name  # 初始化项目名称
     self.status = status  # 初始化项目状态
     self.user_id = user_id  # 初始化项目所属用户ID
     self.id = id
+    self.all_time = '00:00:00'
+    self.daily_time = {datetime.now().strftime('%Y-%m-%d'):'00:00:00'}
+    self.weekly_time = {datetime.now().strftime('%Y-%W'):'00:00:00'}
+    self.monthly_time = {datetime.now().strftime('%Y-%m'):'00:00:00'}
+    self.yearly_time = {datetime.now().strftime('%Y'):'00:00:00'}
+
     
 
   def update_time_stats(self,record):
@@ -91,25 +121,26 @@ class Project(db.Model):
     month = date.strftime("%Y-%m")
     year = date.strftime("%Y")
 
-    duration = record.duration
+    duration = record.duration #String
 
     if date.isoformat() in self.daily_time:
-      self.daily_time[day] += duration
+      
+      self.daily_time[day] = add_times(self.daily_time[day],duration)
     else:
       self.daily_time[day] = duration
 
     if week in self.weekly_time:
-      self.weekly_time[week] += duration
+      self.weekly_time[week] = add_times(self.weekly_time[week],duration)
     else:
       self.weekly_time[week] = duration
     
     if month in self.monthly_time:
-      self.monthly_time[month] += duration
+      self.monthly_time[month] = add_times(self.monthly_time[month],duration)
     else:
       self.monthly_time[month] = duration
 
     if year in self.yearly_time:
-      self.yearly_time[year] += duration
+      self.yearly_time[year] = add_times(self.yearly_time[year],duration)
     else:
       self.yearly_time[year] = duration
 

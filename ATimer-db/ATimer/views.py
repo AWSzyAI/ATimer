@@ -31,11 +31,6 @@ def create():
     project = Project(
       name=name, 
       status=status,
-      all_time='00:00:00',
-      daily_time={datetime.now().strftime('%Y-%m-%d'):'00:00:00'},
-      weekly_time={datetime.now().strftime('%Y-%W'):'00:00:00'},
-      monthly_time={datetime.now().strftime('%Y-%m'):'00:00:00'},
-      yearly_time={datetime.now().strftime('%Y'):'00:00:00'},
       user_id=current_user.id
     )
     db.session.add(project)
