@@ -31,7 +31,7 @@ def create():
     project = Project(
       name=name, 
       status=status,
-      user_id=current_user.id
+      user_id=current_user.id,
     )
     db.session.add(project)
     db.session.commit()
@@ -70,11 +70,12 @@ def create_record():
   print('创建记录:', record)
 
   project = Project.query.get(project_id)
+  print('获取到项目:', project)
   project.update_time_stats(record)
   print('更新项目时间统计信息')
   
-  db.session.add(record)
-  db.session.commit()
+  #db.session.add(record)
+  #db.session.commit()
 
   return jsonify(status='success')
 

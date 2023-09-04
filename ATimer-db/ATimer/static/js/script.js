@@ -75,7 +75,13 @@ timerBtns.forEach(btn => {
       };
 
       createRecord(record);
+      
+      // 刷新页面
+      location.reload(true);
+      // 打印刷新提示到控制台
+      console.log("页面已经刷新");
     }
+    
 
   };
 

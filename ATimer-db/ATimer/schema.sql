@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS Project (
   status TEXT NOT NULL DEFAULT 'In Planning', // 项目状态 InPlanning, InProgress, Completed, Abandoned, Paused
   --all_time TIME DEFAULT '00:00:00',
   all_time TEXT,
-  daily_time JSON, -- 日时间,TEXT类型存储JSON
+  daily_time JSON, -- 日时间,TEXT类型存储JSON，默认为空
   weekly_time JSON,  
   monthly_time JSON,
   yearly_time JSON,

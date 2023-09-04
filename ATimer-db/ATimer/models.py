@@ -35,9 +35,10 @@ def convert_duration(duration_str):
   duration = timedelta(hours=hours, minutes=minutes, seconds=seconds)
   return duration
 
-def str_time_to_seconds(time_str):
+def str_time_to_seconds(time_str:str):
   """将时间字符串转换为秒数"""
-  hours, minutes, seconds = map(int, time_str.split(':'))
+  print(type(time_str))
+  hours, minutes, seconds = map(int, time_str.split(':')) #分割HH:MM:SS
   seconds = hours * 3600 + minutes * 60 + seconds
   return seconds
 
@@ -98,19 +99,22 @@ class Project(db.Model):
   monthly_time = db.Column(JSONEncodedDict, default={})
   yearly_time = db.Column(JSONEncodedDict, default={})
 
+  #根据user_id查询用户
+  user = db.relationship('User', backref='projects', lazy=True)
+
   #元数据
   records = db.relationship('Record', backref='records', lazy=True)  # 项目和记录之间的关联关系
 
-  def __init__(self, name, status, user_id):
+  def __init__(self, name, user_id, status, id=None):
     self.name = name  # 初始化项目名称
-    self.status = status  # 初始化项目状态
     self.user_id = user_id  # 初始化项目所属用户ID
+    self.status = status
     self.id = id
     self.all_time = '00:00:00'
-    self.daily_time = {datetime.now().strftime('%Y-%m-%d'):'00:00:00'}
-    self.weekly_time = {datetime.now().strftime('%Y-%W'):'00:00:00'}
-    self.monthly_time = {datetime.now().strftime('%Y-%m'):'00:00:00'}
-    self.yearly_time = {datetime.now().strftime('%Y'):'00:00:00'}
+    self.daily_time = {}
+    self.weekly_time = {}
+    self.monthly_time = {}
+    self.yearly_time = {}
 
     
 
@@ -122,6 +126,8 @@ class Project(db.Model):
     year = date.strftime("%Y")
 
     duration = record.duration #String
+
+    self.all_time = add_times(self.all_time,duration)
 
     if date.isoformat() in self.daily_time:
       
@@ -152,7 +158,7 @@ class Record(db.Model):
  
   id = db.Column(db.Integer, primary_key=True,autoincrement=True)  # 记录ID，整数类型，主键
   project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)  # 项目ID，整数类型，外键，不能为空
-  start时间 = db.Column(db.DateTime, nullable=False)  # 记录开始时间，日期时间类型，不能为空
+  start_time = db.Column(db.DateTime, nullable=False)  # 记录开始时间，日期时间类型，不能为空
   end_time = db.Column(db.DateTime, nullable=False)  # 记录结束时间，日期时间类型，不能为空
   duration = db.Column(db.String, nullable=False, default='00:00:00')  # 记录时长，字符串类型，不能为空
   
@@ -160,7 +166,19 @@ class Record(db.Model):
   def __init__(self, start_time, end_time, project_id):
     self.start_time = start_time  # 初始化记录的开始时间
     self.end_time = end_time  # 初始化记录的结束时间
-    self.duration = end_time - start_time  # 计算并设置记录的时长
+    # 计算并设置记录的时长，timedelta类型转换为字符串
+    
+    duration_seconds = (end_time - start_time).total_seconds()
+    
+    
+    # 计算小时、分钟和秒数
+    hours = int(duration_seconds // 3600)
+    minutes = int((duration_seconds % 3600) // 60)
+    seconds = int(duration_seconds % 60)
+
+    # 格式化为HH:MM:SS字符串
+    self.duration = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
     self.project_id = project_id  # 初始化记录所属项目ID
     #self.project.update_time_stats() 
 
